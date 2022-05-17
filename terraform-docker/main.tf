@@ -13,12 +13,20 @@ resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
 }
 
+resource "random_string" "random" {
+  count   = 2
+  length  = 4
+  special = false
+  upper   = false
+}
+
 resource "docker_container" "nodered_container" {
-  name  = "nodered"
+  count = 2
+  name  = join("-", ["nodered", random_string.random[count.index].result])
   image = docker_image.nodered_image.latest
   ports {
     internal = 1880
-    external = 1880
+    #external = 1880
   }
 
   volumes {
@@ -29,17 +37,22 @@ resource "docker_container" "nodered_container" {
 }
 
 
-output "container-name" {
-  value       = docker_container.nodered_container.name
+output "container-name1" {
+  value       = docker_container.nodered_container[0].name
   description = "The name of the container"
 }
 
-output "container-ip-port" {
-  value       = join(":", [docker_container.nodered_container.ip_address, docker_container.nodered_container.ports[0].external])
+output "container-address1" {
+  value       = format("http://%s", join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external]))
   description = "The name of the container"
 }
 
-output "container-ip-port-schema" {
-  value       = format("http://%s",join(":", [docker_container.nodered_container.ip_address, docker_container.nodered_container.ports[0].external]))
+output "container-name2" {
+  value       = docker_container.nodered_container[1].name
+  description = "The name of the container"
+}
+
+output "container-address2" {
+  value       = format("http://%s", join(":", [docker_container.nodered_container[1].ip_address, docker_container.nodered_container[1].ports[0].external]))
   description = "The name of the container"
 }
