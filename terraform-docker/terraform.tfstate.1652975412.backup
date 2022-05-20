@@ -1,27 +1,31 @@
 {
   "version": 4,
   "terraform_version": "1.1.9",
-  "serial": 104,
+  "serial": 94,
   "lineage": "e1514800-2fab-1b82-0089-757c84969d94",
   "outputs": {
     "container-address": {
       "value": [
-        "172.17.0.2:1880"
+        "172.17.0.2:49161",
+        "172.17.0.3:49162"
       ],
       "type": [
         "tuple",
         [
+          "string",
           "string"
         ]
       ]
     },
     "container-name": {
       "value": [
-        "nodered-moue"
+        "nodered-hbl3",
+        "nodered-8voj"
       ],
       "type": [
         "tuple",
         [
+          "string",
           "string"
         ]
       ]
@@ -47,9 +51,9 @@
             "cpu_shares": 0,
             "destroy_grace_seconds": null,
             "devices": [],
-            "dns": null,
-            "dns_opts": null,
-            "dns_search": null,
+            "dns": [],
+            "dns_opts": [],
+            "dns_search": [],
             "domainname": "",
             "entrypoint": [
               "npm",
@@ -65,7 +69,7 @@
             "env": [],
             "exit_code": null,
             "gateway": "172.17.0.1",
-            "group_add": null,
+            "group_add": [],
             "healthcheck": [
               {
                 "interval": "0s",
@@ -79,24 +83,24 @@
               }
             ],
             "host": [],
-            "hostname": "8ba61b56f456",
-            "id": "8ba61b56f456ffbf02f8aff2d4caac046a96ee2da604ae54e47f0f6af574a422",
+            "hostname": "d8439d909e62",
+            "id": "d8439d909e629802bf7ef47fabf5ef50cf1664f39c4fbad0e2df077554fd20dc",
             "image": "sha256:e7631c7bedde98cd0715eb5e2f6a532a7d165c72fa26026af7008b58a89fb133",
             "init": false,
             "ip_address": "172.17.0.2",
             "ip_prefix_length": 16,
             "ipc_mode": "private",
             "labels": [],
-            "links": null,
+            "links": [],
             "log_driver": "json-file",
-            "log_opts": null,
+            "log_opts": {},
             "logs": false,
             "max_retry_count": 0,
             "memory": 0,
             "memory_swap": 0,
             "mounts": [],
             "must_run": true,
-            "name": "nodered-moue",
+            "name": "nodered-hbl3",
             "network_alias": null,
             "network_data": [
               {
@@ -115,7 +119,7 @@
             "pid_mode": "",
             "ports": [
               {
-                "external": 1880,
+                "external": 49161,
                 "internal": 1880,
                 "ip": "0.0.0.0",
                 "protocol": "tcp"
@@ -131,9 +135,9 @@
             "shm_size": 64,
             "start": true,
             "stdin_open": false,
-            "storage_opts": null,
-            "sysctls": null,
-            "tmpfs": null,
+            "storage_opts": {},
+            "sysctls": {},
+            "tmpfs": {},
             "tty": false,
             "ulimit": [],
             "upload": [],
@@ -144,7 +148,7 @@
                 "container_path": "/data",
                 "from_container": "",
                 "host_path": "/home/ubuntu/environment/my-terraform/terraform-docker/docker-volumes/nodered_data",
-                "read_only": null,
+                "read_only": false,
                 "volume_name": ""
               }
             ],
@@ -194,7 +198,7 @@
           "index_key": 0,
           "schema_version": 1,
           "attributes": {
-            "id": "moue",
+            "id": "hbl3",
             "keepers": null,
             "length": 4,
             "lower": true,
@@ -204,7 +208,28 @@
             "min_upper": 0,
             "number": true,
             "override_special": null,
-            "result": "moue",
+            "result": "hbl3",
+            "special": false,
+            "upper": false
+          },
+          "sensitive_attributes": [],
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        },
+        {
+          "index_key": 1,
+          "schema_version": 1,
+          "attributes": {
+            "id": "8voj",
+            "keepers": null,
+            "length": 4,
+            "lower": true,
+            "min_lower": 0,
+            "min_numeric": 0,
+            "min_special": 0,
+            "min_upper": 0,
+            "number": true,
+            "override_special": null,
+            "result": "8voj",
             "special": false,
             "upper": false
           },

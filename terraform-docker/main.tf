@@ -14,19 +14,20 @@ resource "docker_image" "nodered_image" {
 }
 
 resource "random_string" "random" {
-  count   = 2
+  count   = 1
   length  = 4
   special = false
   upper   = false
 }
 
 resource "docker_container" "nodered_container" {
-  count = 2
+  count = var.container_count
+
   name  = join("-", ["nodered", random_string.random[count.index].result])
   image = docker_image.nodered_image.latest
   ports {
-    internal = 1880
-    #external = 1880
+    internal = var.int_port
+    external = var.ext_port
   }
 
   volumes {
@@ -35,24 +36,35 @@ resource "docker_container" "nodered_container" {
   }
 
 }
+# THESE RESOURCES WERE MEANT FOR IMPORTS
 
+# resource "docker_container" "nodered_container-2" {
+#   name  = "nodered-e3y2"
+#   image = docker_image.nodered_image.latest
+#   ports {
+#     internal = 1880
+#     #external = 1880
+#   }
 
-output "container-name1" {
-  value       = docker_container.nodered_container[0].name
-  description = "The name of the container"
-}
+#   volumes {
+#     container_path = "/data"
+#     host_path      = "/home/ubuntu/environment/my-terraform/terraform-docker/docker-volumes/nodered_data"
+#   }
 
-output "container-address1" {
-  value       = format("http://%s", join(":", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].external]))
-  description = "The name of the container"
-}
+# }
 
-output "container-name2" {
-  value       = docker_container.nodered_container[1].name
-  description = "The name of the container"
-}
+# resource "docker_container" "nodered_container-3" {
+#   name  = "nodered-gadb"
+#   image = docker_image.nodered_image.latest
+#   ports {
+#     internal = 1880
+#     #external = 1880
+#   }
 
-output "container-address2" {
-  value       = format("http://%s", join(":", [docker_container.nodered_container[1].ip_address, docker_container.nodered_container[1].ports[0].external]))
-  description = "The name of the container"
-}
+#   volumes {
+#     container_path = "/data"
+#     host_path      = "/home/ubuntu/environment/my-terraform/terraform-docker/docker-volumes/nodered_data"
+#   }
+
+# }
+

@@ -1,2 +1,3 @@
 .terraform/
 docker-volumes/
+*.tfvars
