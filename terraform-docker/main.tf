@@ -9,25 +9,35 @@ terraform {
 
 provider "docker" {}
 
+
+resource "null_resource" "nodered_data" {
+  provisioner "local-exec" {
+    command = <<-EOT
+    mkdir -p docker-volumes/nodered_data || true
+    chown -R 1000:1000 docker-volumes/nodered_data
+    EOT
+  }
+}
+
 resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
 }
 
 resource "random_string" "random" {
-  count   = 1
+  count   = local.container_count
   length  = 4
   special = false
   upper   = false
 }
 
 resource "docker_container" "nodered_container" {
-  count = var.container_count
+  count = local.container_count
 
   name  = join("-", ["nodered", random_string.random[count.index].result])
   image = docker_image.nodered_image.latest
   ports {
     internal = var.int_port
-    external = var.ext_port
+    external = var.ext_port[count.index]
   }
 
   volumes {
@@ -36,6 +46,24 @@ resource "docker_container" "nodered_container" {
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # THESE RESOURCES WERE MEANT FOR IMPORTS
 
 # resource "docker_container" "nodered_container-2" {
