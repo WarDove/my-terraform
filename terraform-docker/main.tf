@@ -1,14 +1,3 @@
-terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 2.16.0"
-    }
-  }
-}
-
-provider "docker" {}
-
 
 resource "null_resource" "nodered_data" {
   provisioner "local-exec" {
@@ -19,9 +8,12 @@ resource "null_resource" "nodered_data" {
   }
 }
 
-resource "docker_image" "nodered_image" {
-  name = "nodered/node-red:latest"
+
+module "image" {
+  source   = "./image"
+  image_in = var.image[terraform.workspace]
 }
+
 
 resource "random_string" "random" {
   count   = local.container_count
@@ -33,16 +25,17 @@ resource "random_string" "random" {
 resource "docker_container" "nodered_container" {
   count = local.container_count
 
-  name  = join("-", ["nodered", random_string.random[count.index].result])
-  image = docker_image.nodered_image.latest
+  name  = join("-", ["nodered", terraform.workspace, random_string.random[count.index].result])
+  image = module.image.image_out
   ports {
     internal = var.int_port
-    external = var.ext_port[count.index]
+    external = var.ext_port[terraform.workspace][count.index]
+    // or external = lookup(var.ext_port, terraform.workspace)[count.index]
   }
 
   volumes {
     container_path = "/data"
-    host_path      = "/home/ubuntu/environment/my-terraform/terraform-docker/docker-volumes/nodered_data"
+    host_path      = "${path.cwd}/docker-volumes/nodered_data"
   }
 
 }
