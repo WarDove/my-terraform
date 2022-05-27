@@ -1,60 +1,60 @@
 
-resource "null_resource" "nodered_data" {
-  provisioner "local-exec" {
-    command = <<-EOT
-    mkdir -p docker-volumes/nodered_data || true
-    chown -R 1000:1000 docker-volumes/nodered_data
-    EOT
+# resource "null_resource" "nodered_data" {
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#     mkdir -p docker-volumes/nodered_data || true
+#     chown -R 1000:1000 docker-volumes/nodered_data
+#     EOT
+#   }
+# }
+
+
+locals {
+  deployment = {
+    nodered = {
+      container_count = length(var.ext_port.nodered[terraform.workspace])
+      image           = var.image.nodered[terraform.workspace]
+      ext_port        = var.ext_port.nodered[terraform.workspace]
+      int_port        = var.int_port.nodered
+      container_path  = "/data"
+    }
+    influxdb = {
+      container_count = length(var.ext_port.influxdb[terraform.workspace])
+      image           = var.image.influxdb[terraform.workspace]
+      ext_port        = var.ext_port.influxdb[terraform.workspace]
+      int_port        = var.int_port.influxdb
+      container_path  = "/var/lib/influxdb"
+    }
+    grafana = {
+      container_count = length(var.ext_port.grafana[terraform.workspace])
+      image           = var.image.grafana[terraform.workspace]
+      ext_port        = var.ext_port.grafana[terraform.workspace]
+      int_port        = var.int_port.grafana
+      container_path  = "/var/lib/grafana"
+    }
   }
 }
-
 
 module "image" {
   source   = "./image"
-  image_in = var.image[terraform.workspace]
+  for_each = local.deployment
+  image_in = each.value.image
 }
 
-
-resource "random_string" "random" {
-  count   = local.container_count
-  length  = 4
-  special = false
-  upper   = false
+module "container" {
+  source = "./container"
+  # depends_on  = [null_resource.nodered_data]
+  #count       = local.container_count
+  for_each    = local.deployment
+  count_in    = each.value.container_count
+  name_in     = each.key
+  image_in    = module.image[each.key].image_out
+  int_port_in = each.value.int_port
+  ext_port_in = each.value.ext_port
+  // or ext_port_in = lookup(var.ext_port, terraform.workspace)[count.index]
+  container_path_in = each.value.container_path
+  #host_path_in      = "${path.cwd}/docker-volumes/nodered_data"
 }
-
-resource "docker_container" "nodered_container" {
-  count = local.container_count
-
-  name  = join("-", ["nodered", terraform.workspace, random_string.random[count.index].result])
-  image = module.image.image_out
-  ports {
-    internal = var.int_port
-    external = var.ext_port[terraform.workspace][count.index]
-    // or external = lookup(var.ext_port, terraform.workspace)[count.index]
-  }
-
-  volumes {
-    container_path = "/data"
-    host_path      = "${path.cwd}/docker-volumes/nodered_data"
-  }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # THESE RESOURCES WERE MEANT FOR IMPORTS
