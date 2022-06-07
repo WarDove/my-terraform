@@ -7,4 +7,6 @@ variable "aws_region" {
 
 variable "private_sub_count" {}
 variable "public_sub_count" {}
+variable "ssh_acl" {}
+variable "public_acl" {}
 

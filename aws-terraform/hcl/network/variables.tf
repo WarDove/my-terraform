@@ -7,3 +7,5 @@ variable "private_sub_count" {}
 variable "public_sub_count" {}
 variable "aws_az_names" {}
 variable "max_subnets" {}
+variable "security_groups" {}
+variable "db_sub_group" {}

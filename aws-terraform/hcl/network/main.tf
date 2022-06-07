@@ -18,6 +18,29 @@ resource "aws_vpc" "org_vpc" {
   }
 }
 
+resource "aws_security_group" "org_sg" {
+  for_each    = var.security_groups
+  name        = each.value.name
+  description = each.value.description
+  vpc_id      = aws_vpc.org_vpc.id
+
+  dynamic "ingress" {
+    for_each = each.value.ingress
+    content {
+      from_port   = ingress.value.from
+      to_port     = ingress.value.to
+      protocol    = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
+    }
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 #========================= PUBLIC ==========================
 resource "aws_subnet" "org_pub_sub" {
   count                   = var.public_sub_count
@@ -59,6 +82,7 @@ resource "aws_route_table_association" "org_pub_rt_a" {
   subnet_id      = aws_subnet.org_pub_sub.*.id[count.index]
   route_table_id = aws_route_table.org_pub_rt.id
 }
+
 #========================= PRIVATE ==========================
 resource "aws_subnet" "org_priv_sub" {
   count                   = var.private_sub_count
@@ -77,9 +101,18 @@ resource "aws_default_route_table" "org_priv_rt" {
     Name = "org_priv_rt_main"
   }
 }
-#===================================================================
 
 
+#========================= PRIVATE ==========================
+resource "aws_db_subnet_group" "rds_sub_group" {
+  count      = var.db_sub_group ? 1 : 0
+  name       = "rds_sub_group"
+  subnet_ids = aws_subnet.org_priv_sub[*].id
+
+  tags = {
+    Name = "rds_sub_group"
+  }
+}
 
 
 
