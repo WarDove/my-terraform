@@ -1,9 +1,8 @@
 # Root Locals
 
 locals {
-  max_subnets  = max(var.private_sub_count, var.public_sub_count)
-  vpc_cidr     = "10.123.0.0/16"
-  public_sg_id = module.network.public_sg_id
+  max_subnets = max(var.private_sub_count, var.public_sub_count)
+  vpc_cidr    = "10.123.0.0/16"
 }
 
 

@@ -10,3 +10,14 @@ variable "public_sub_count" {}
 variable "ssh_acl" {}
 variable "public_acl" {}
 
+
+# DB variables
+variable "dbname" {}
+variable "dbuser" {
+  sensitive = true
+}
+variable "dbpassword" {
+  sensitive = true
+}
+
+

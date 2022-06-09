@@ -16,3 +16,24 @@ module "network" {
   security_groups   = local.security_groups
   db_sub_group      = true
 }
+
+module "loadbalancing" {
+  source         = "./loadbalancing"
+  public_subnets = module.network.public_subnets[*].id
+  public_sg      = module.network.vpc_sg_list["public"].id[*]
+}
+
+# module "database" {
+#   source                 = "./database"
+#   allocated_storage      = 10
+#   max_allocated_storage  = 100
+#   db_engine_version      = "5.7"
+#   db_instance_class      = "db.t3.micro"
+#   dbname                 = var.dbname
+#   dbuser                 = var.dbuser
+#   dbpassword             = var.dbWpassword
+#   db_subnet_group_name   = module.network.rds_sub_group[0].name
+#   vpc_security_group_ids = module.network.vpc_sg_list["rds"].id[*]
+#   db_identifier          = "k3s-cp-db-main"
+#   skip_db_snapshot       = true
+# }

@@ -103,7 +103,7 @@ resource "aws_default_route_table" "org_priv_rt" {
 }
 
 
-#========================= PRIVATE ==========================
+#========================= DATABASE =========================
 resource "aws_db_subnet_group" "rds_sub_group" {
   count      = var.db_sub_group ? 1 : 0
   name       = "rds_sub_group"
