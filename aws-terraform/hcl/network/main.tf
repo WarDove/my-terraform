@@ -52,7 +52,6 @@ resource "aws_subnet" "org_pub_sub" {
     Name = "org-pub-sub-${count.index + 1}"
   }
 }
-
 resource "aws_internet_gateway" "org_igw" {
   vpc_id = aws_vpc.org_vpc.id
   tags = {
