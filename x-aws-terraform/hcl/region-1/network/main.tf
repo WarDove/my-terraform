@@ -141,3 +141,24 @@ resource "aws_security_group" "main" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+# ENI with EIP
+
+
+# resource "aws_network_interface" "test" {
+#   subnet_id       = aws_subnet.public_subnet[0].id
+#   security_groups = [aws_security_group.main["public"].id]
+# }
+
+# resource "aws_eip" "public_eni_eip" {
+#   vpc   = true
+#   tags = {
+#     Name = "public-eni-test"
+#   }
+# }
+
+# resource "aws_eip_association" "eip_assoc_test" {
+#   network_interface_id = aws_network_interface.test.id
+#   allocation_id = aws_eip.public_eni_eip.id
+# }
+

@@ -4,31 +4,15 @@
 
 ################### Region-1 ####################
 
-# RDS locals
+# Networking locals
 locals {
-  rds_region-1 = {
-    mysql = {
-      allocated_storage     = 10
-      max_allocated_storage = 100
-      engine_version        = "5.7"
-      instance_class        = "db.t3.micro"
-      subnet_group          = "private"
-      db_name               = var.mysql-region-1.dbname
-      db_username           = var.mysql-region-1.username
-      db_password           = var.mysql-region-1.password
-      identifier            = "mysql-main"
-      skip_final_snapshot   = true
-      multi_az              = false
-      tags = {
-        Name = "mysql-main"
-      }
-    }
-  }
+  private_cidrs_region-1 = [for i in range(1, 16, 2) : cidrsubnet(var.vpc_cidr_region-1, 8, i)]
+  public_cidrs_region-1  = [for i in range(2, 16, 2) : cidrsubnet(var.vpc_cidr_region-1, 8, i)]
 }
 
 # Security group locals
 locals {
-  public_ssh_region-1_acl  = ["94.20.66.0/23"]
+  public_ssh_region-1_acl  = ["94.20.66.0/23", "188.72.172.250/32", "188.72.172.253/32", "3.121.225.232/32"]
   public_http_region-1_acl = ["0.0.0.0/0"]
 
 }
@@ -81,6 +65,28 @@ locals {
           protocol    = "tcp"
           cidr_blocks = [var.vpc_cidr_region-1]
         }
+      }
+    }
+  }
+}
+
+# RDS locals
+locals {
+  rds_region-1 = {
+    mysql = {
+      allocated_storage     = 10
+      max_allocated_storage = 100
+      engine_version        = "5.7"
+      instance_class        = "db.t3.micro"
+      subnet_type           = "private"
+      db_name               = var.mysql-region-1.dbname
+      db_username           = var.mysql-region-1.username
+      db_password           = var.mysql-region-1.password
+      identifier            = "mysql-main"
+      skip_final_snapshot   = true
+      multi_az              = false
+      tags = {
+        Name = "mysql-main"
       }
     }
   }

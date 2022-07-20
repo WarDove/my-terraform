@@ -9,7 +9,7 @@ resource "aws_default_vpc" "default_vpc" {
 }
 
 resource "aws_default_subnet" "default_subnet_azs" {
-  for_each          = { for v in var.az_names : v => v if var.default_network_enabled }
+  for_each          = { for v in var.az_names : v => v if var.default_network_enabled } # could be done with count ? 3:0 + var.az_names[count.index]
   availability_zone = each.value
   force_destroy     = true
   depends_on        = [aws_default_vpc.default_vpc]
