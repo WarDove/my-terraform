@@ -5,6 +5,7 @@ data "aws_availability_zones" "az-region-1" {
   provider = aws.region-1
 }
 
+
 module "network-region-1" {
   source = "./region-1/network"
   providers = {
@@ -18,6 +19,38 @@ module "network-region-1" {
   public_ngw_enabled      = var.public_ngw_enabled_region-1
   default_network_enabled = var.default_network_enabled_region-1
 }
+
+
+module "ec2-region-1" {
+  count  = var.ec2_enabled_region-1 ? 1 : 0
+  source = "./region-1/ec2"
+  providers = {
+    aws = aws.region-1
+  }
+  az_names        = data.aws_availability_zones.az-region-1.names
+  sg_map          = module.network-region-1.sg_map
+  subnets         = module.network-region-1.subnet_map_list
+  alb_main_tg_arn = module.elb-region-1[*].alb_main_tg_arn # false returns empty tuple so * used instead of 0 - caused by module count
+  private_cidrs   = local.private_cidrs_region-1
+  public_cidrs    = local.public_cidrs_region-1
+}
+
+
+module "elb-region-1" {
+  count  = var.elb_enabled_region-1 ? 1 : 0
+  source = "./region-1/elb"
+  providers = {
+    aws = aws.region-1
+  }
+  vpc_id              = module.network-region-1.vpc_id
+  sg_map              = module.network-region-1.sg_map
+  subnets             = module.network-region-1.subnet_map_list
+  healthy_threshold   = 5
+  unhealthy_threshold = 3
+  interval            = 40
+  timeout             = 10
+}
+
 
 module "rds-region-1" {
   count  = var.rds_enabled_region-1 ? 1 : 0
@@ -35,16 +68,3 @@ module "rds-region-1" {
 # for_each = { for k v in local.rds_region-1: k => v if var.rds_enabled_region-1 }
 # rds_instances = each.value
 
-
-module "ec2-region-1" {
-  count  = var.ec2_enabled_region-1 ? 1 : 0
-  source = "./region-1/ec2"
-  providers = {
-    aws = aws.region-1
-  }
-  az_names      = data.aws_availability_zones.az-region-1.names
-  sg_map        = module.network-region-1.sg_map
-  subnets       = module.network-region-1.subnet_map_list
-  private_cidrs = local.private_cidrs_region-1
-  public_cidrs  = local.public_cidrs_region-1
-}
