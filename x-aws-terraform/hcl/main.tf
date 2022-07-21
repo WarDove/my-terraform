@@ -30,7 +30,6 @@ module "ec2-region-1" {
   az_names        = data.aws_availability_zones.az-region-1.names
   sg_map          = module.network-region-1.sg_map
   subnets         = module.network-region-1.subnet_map_list
-  alb_main_tg_arn = module.elb-region-1[*].alb_main_tg_arn # false returns empty tuple so * used instead of 0 - caused by module count
   private_cidrs   = local.private_cidrs_region-1
   public_cidrs    = local.public_cidrs_region-1
 }
@@ -45,6 +44,7 @@ module "elb-region-1" {
   vpc_id              = module.network-region-1.vpc_id
   sg_map              = module.network-region-1.sg_map
   subnets             = module.network-region-1.subnet_map_list
+  private_instances = module.ec2-region-1[*].private_instances # false ec2_enabled_region returns empty tuple so * used as the advantage of splat expression behaviour
   healthy_threshold   = 5
   unhealthy_threshold = 3
   interval            = 40

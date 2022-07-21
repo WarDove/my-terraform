@@ -40,6 +40,12 @@ resource "aws_lb_listener" "main" {
   }
 }
 
+resource "aws_lb_target_group_attachment" "main" {
+  count            = length(var.private_instances[0]) # 0 added because of the splat expression used in root main
+  target_group_arn = aws_lb_target_group.main.arn
+  target_id        = var.private_instances[0][count.index].id
+  port             = 80
+}
 
 
 

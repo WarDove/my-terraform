@@ -6,3 +6,4 @@ variable "healthy_threshold" {}
 variable "unhealthy_threshold" {}
 variable "interval" {}
 variable "timeout" {}
+variable "private_instances" {}

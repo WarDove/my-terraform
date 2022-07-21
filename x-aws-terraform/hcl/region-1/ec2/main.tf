@@ -65,10 +65,3 @@ resource "aws_instance" "ubuntu-focal-public" {
     Name = "bastion-node-${count.index + 1}"
   }
 }
-
-resource "aws_lb_target_group_attachment" "main" {
-  count            = length(aws_instance.ubuntu-focal-private)
-  target_group_arn = var.alb_main_tg_arn[0] # 1 element tuple caused by * in root main
-  target_id        = aws_instance.ubuntu-focal-private[count.index].id
-  port             = 80
-}
