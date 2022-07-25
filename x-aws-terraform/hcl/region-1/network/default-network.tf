@@ -43,7 +43,7 @@ resource "aws_default_vpc_dhcp_options" "default_dhcp" {
 }
 
 resource "aws_internet_gateway" "default-vpc-igw" {
-  count      = 0 #var.default_network_enabled ? 1 : 0
+  count      = var.default_network_enabled ? 1 : 0
   depends_on = [aws_default_vpc.default_vpc]
   vpc_id     = aws_default_vpc.default_vpc[0].id
   tags = {

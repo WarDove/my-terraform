@@ -1,4 +1,4 @@
-# ec2 providers
+# network providers
 
 terraform {
   required_providers {
