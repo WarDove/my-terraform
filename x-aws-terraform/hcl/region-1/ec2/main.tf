@@ -56,7 +56,7 @@ resource "aws_instance" "ubuntu-focal-public" {
 
   user_data = templatefile("${path.module}/userdata.tpl",
     {
-      nodename = "ubuntu-focal-public-${count.index + 1}"
+      nodename = "bastion-node-${count.index + 1}"
   })
 
   key_name = aws_key_pair.ubuntu-focal-public.id

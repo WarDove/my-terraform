@@ -1,5 +1,19 @@
 # root main
 
+
+# Provisioning a DynamoDb instance for remote state-lock.
+
+resource "aws_dynamodb_table" "terraform_locks" {
+  name         = "tfstate-lock"
+  billing_mode = "PAY_PER_REQUEST"
+  provider     = aws.region-bck
+  hash_key     = "LockID"
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+}
+
 data "aws_availability_zones" "az-region-1" {
   state    = "available"
   provider = aws.region-1

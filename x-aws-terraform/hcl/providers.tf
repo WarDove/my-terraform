@@ -11,6 +11,12 @@ terraform {
 
 provider "aws" {
   profile = var.profile
+  region  = var.region-bck
+  alias   = "region-bck"
+}
+
+provider "aws" {
+  profile = var.profile
   region  = var.region-1
   alias   = "region-1"
 }

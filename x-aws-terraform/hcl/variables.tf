@@ -4,6 +4,7 @@
 # Provider and Backend variables
 
 variable "profile" {}
+variable "region-bck" {}
 variable "region-1" {}
 variable "region-2" {}
 variable "region-3" {}

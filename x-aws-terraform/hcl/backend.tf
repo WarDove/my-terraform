@@ -5,5 +5,6 @@ terraform {
     profile = "default"
     key     = "tfstatefile"
     bucket  = "tarlantfstate"
+   # dynamodb_table = "tfstate-lock" #comment this during provisioning from 0, otherwise state will remain locked
   }
 }
