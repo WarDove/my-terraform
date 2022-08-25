@@ -1,0 +1,142 @@
+{
+  "version": 4,
+  "terraform_version": "1.2.6",
+  "serial": 96,
+  "lineage": "5b4982b4-609d-2d12-23dd-00b9bd485fa9",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "vsphere_compute_cluster",
+      "name": "azin-sphere-cc",
+      "provider": "provider[\"registry.terraform.io/hashicorp/vsphere\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "custom_attributes": {},
+            "datacenter_id": "datacenter-129",
+            "dpm_automation_level": "manual",
+            "dpm_enabled": false,
+            "dpm_threshold": 3,
+            "drs_advanced_options": {},
+            "drs_automation_level": "manual",
+            "drs_enable_predictive_drs": false,
+            "drs_enable_vm_overrides": true,
+            "drs_enabled": false,
+            "drs_migration_threshold": 3,
+            "drs_scale_descendants_shares": "disabled",
+            "folder": "",
+            "force_evacuate_on_destroy": null,
+            "ha_admission_control_failover_host_system_ids": null,
+            "ha_admission_control_host_failure_tolerance": 1,
+            "ha_admission_control_performance_tolerance": 100,
+            "ha_admission_control_policy": "resourcePercentage",
+            "ha_admission_control_resource_percentage_auto_compute": true,
+            "ha_admission_control_resource_percentage_cpu": 100,
+            "ha_admission_control_resource_percentage_memory": 100,
+            "ha_admission_control_slot_policy_explicit_cpu": 32,
+            "ha_admission_control_slot_policy_explicit_memory": 100,
+            "ha_admission_control_slot_policy_use_explicit_size": null,
+            "ha_advanced_options": {},
+            "ha_datastore_apd_recovery_action": "none",
+            "ha_datastore_apd_response": "disabled",
+            "ha_datastore_apd_response_delay": 180,
+            "ha_datastore_pdl_response": "disabled",
+            "ha_enabled": false,
+            "ha_heartbeat_datastore_ids": [],
+            "ha_heartbeat_datastore_policy": "allFeasibleDsWithUserPreference",
+            "ha_host_isolation_response": "none",
+            "ha_host_monitoring": "enabled",
+            "ha_vm_component_protection": "enabled",
+            "ha_vm_dependency_restart_condition": "none",
+            "ha_vm_failure_interval": 30,
+            "ha_vm_maximum_failure_window": -1,
+            "ha_vm_maximum_resets": 3,
+            "ha_vm_minimum_uptime": 120,
+            "ha_vm_monitoring": "vmMonitoringDisabled",
+            "ha_vm_restart_additional_delay": 0,
+            "ha_vm_restart_priority": "medium",
+            "ha_vm_restart_timeout": 600,
+            "host_cluster_exit_timeout": 3600,
+            "host_managed": null,
+            "host_system_ids": [
+              "host-149"
+            ],
+            "id": "domain-c143",
+            "name": "azin-sphere compute cluster",
+            "proactive_ha_automation_level": "Manual",
+            "proactive_ha_enabled": false,
+            "proactive_ha_moderate_remediation": "QuarantineMode",
+            "proactive_ha_provider_ids": [],
+            "proactive_ha_severe_remediation": "QuarantineMode",
+            "resource_pool_id": "resgroup-144",
+            "tags": [],
+            "vsan_disk_group": [],
+            "vsan_enabled": false
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "vsphere_datacenter.azin-sphere-dc",
+            "vsphere_host.esx-01"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "vsphere_datacenter",
+      "name": "azin-sphere-dc",
+      "provider": "provider[\"registry.terraform.io/hashicorp/vsphere\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "custom_attributes": {},
+            "folder": null,
+            "id": "azin-sphere-dc",
+            "moid": "datacenter-129",
+            "name": "azin-sphere-dc",
+            "tags": []
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "vsphere_host",
+      "name": "esx-01",
+      "provider": "provider[\"registry.terraform.io/hashicorp/vsphere\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "cluster": "domain-c143",
+            "cluster_managed": null,
+            "connected": true,
+            "custom_attributes": {},
+            "datacenter": "datacenter-129",
+            "force": false,
+            "hostname": "10.180.10.21",
+            "id": "host-149",
+            "license": null,
+            "lockdown": "disabled",
+            "maintenance": false,
+            "password": "!Q@W#E$R%T!!@@a",
+            "tags": [],
+            "thumbprint": null,
+            "username": "root"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "vsphere_datacenter.azin-sphere-dc"
+          ]
+        }
+      ]
+    }
+  ]
+}

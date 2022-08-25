@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.2.6",
-  "serial": 119,
+  "serial": 100,
   "lineage": "5b4982b4-609d-2d12-23dd-00b9bd485fa9",
   "outputs": {},
   "resources": [
@@ -14,8 +14,8 @@
         {
           "schema_version": 0,
           "attributes": {
-            "datacenter_id": "datacenter-182",
-            "id": "datastore-198",
+            "datacenter_id": "datacenter-129",
+            "id": "datastore-150",
             "name": "main-datastore"
           },
           "sensitive_attributes": []
@@ -31,9 +31,9 @@
         {
           "schema_version": 0,
           "attributes": {
-            "datacenter_id": "datacenter-182",
+            "datacenter_id": "datacenter-129",
             "distributed_virtual_switch_uuid": null,
-            "id": "network-200",
+            "id": "network-152",
             "name": "VLAN3513",
             "type": "Network"
           },
@@ -53,45 +53,12 @@
             "custom_attributes": {},
             "folder": null,
             "id": "azin-sphere-dc",
-            "moid": "datacenter-182",
+            "moid": "datacenter-129",
             "name": "azin-sphere-dc",
             "tags": []
           },
           "sensitive_attributes": [],
           "private": "bnVsbA=="
-        }
-      ]
-    },
-    {
-      "mode": "managed",
-      "type": "vsphere_host",
-      "name": "esx-01",
-      "provider": "provider[\"registry.terraform.io/hashicorp/vsphere\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "cluster": "",
-            "cluster_managed": null,
-            "connected": true,
-            "custom_attributes": {},
-            "datacenter": "datacenter-182",
-            "force": false,
-            "hostname": "10.180.10.21",
-            "id": "host-197",
-            "license": null,
-            "lockdown": "disabled",
-            "maintenance": false,
-            "password": "!Q@W#E$R%T!!@@a",
-            "tags": [],
-            "thumbprint": null,
-            "username": "root"
-          },
-          "sensitive_attributes": [],
-          "private": "bnVsbA==",
-          "dependencies": [
-            "vsphere_datacenter.azin-sphere-dc"
-          ]
         }
       ]
     }
