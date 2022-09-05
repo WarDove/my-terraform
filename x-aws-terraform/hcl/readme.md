@@ -1,3 +1,8 @@
+
+## Usage/Examples
+TFVARS EXAMPLE
+
+```hcl
 # root tfvars
 
 ################### WARNING ####################
@@ -31,3 +36,8 @@ mysql-region-1 = {
   password = "verystrongpass"
 }
 # this auth credentials can be fetched to an ec2 instance with the help of templatefile function and ec2 user_data property and bash script execution within the regarding user_data
+
+}
+```
+
+
