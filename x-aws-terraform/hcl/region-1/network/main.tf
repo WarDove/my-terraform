@@ -34,7 +34,7 @@ resource "aws_eip" "ngw_eip" {
 resource "aws_nat_gateway" "public_ngw" {
   count         = var.public_ngw_enabled ? local.az_count : 0
   allocation_id = aws_eip.ngw_eip[count.index].id
-  subnet_id     = aws_subnet.private_subnet[count.index].id
+  subnet_id     = aws_subnet.public_subnet[count.index].id
 
   tags = {
     Name = "ngw-${var.az_names[count.index]}"
